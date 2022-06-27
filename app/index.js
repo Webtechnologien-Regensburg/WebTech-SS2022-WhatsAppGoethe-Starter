@@ -5,22 +5,6 @@ const HTTP_PORT = 8080;
 
 var app;
 
-function initDatabase() {
-    Database.open(function () {
-        initExpress();
-    });
-}
-
-function onTestRequest(request, response) {
-    console.log(request.body);
-
-    let msg = {
-        text: "It Works",
-    };
-    
-    response.status(200).send(JSON.stringify(msg));
-}
-
 function initExpress() {
     app = express();
     app.use(express.static("www"));
@@ -34,4 +18,23 @@ function initExpress() {
     });
 }
 
-initDatabase();
+function onTestRequest(request, response) {
+    console.log(request.body);
+
+    let msg = {
+        text: "It Works",
+    };
+
+    response.status(200).send(JSON.stringify(msg));
+}
+
+async function initApplication() {
+    try {
+        await Database.open();
+        initExpress();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+initApplication();
