@@ -20,15 +20,23 @@ header-includes: |
 
 # Abschlussprojekt WhatsApp, Goethe?
 
-## Aufgabenstellung
-
 Im Rahmen Ihres Abschlussprojektes implementieren Sie eine Webanwendung, die der Erfassung und Darstellung von Briefwechseln Johann Wolfgang von Goethes mit verschiedenen anderen Personen dient. Zur Implementierung des Projekts setzen Sie die im Kurs erworbenen Fähigkeiten und die dort besprochenen Technologien ein. Das Projekt muss bis zum 31. August abgegeben werden. Die Abgabe kann zu einem früheren Zeitpunkt erfolgen. In dem Fall müssen Sie schriftlich bestätigen, dass Sie auf die verbleibende Bearbeitungszeit verzichten.
 
-Das wesentliche Ziel des Projektes ist es, die bereitgestellten Briefwechsel durch den Benutzer in das System einzupflegen und im Anschluss für diesen – aufbereitet – zugänglich zu machen. Die zu implementierende Anwendung erfüllt dazu drei Funktionen: (1) Über eine entsprechende graphische Schnittstelle (siehe die Skizzen weiter unten) können Nutzer Briefpartner Goethes ergänzen und Briefe von bzw. an diese Personen eintragen. (2) in der Anwendung gespeicherte Briefe werden den Nutzerinnen und Nutzern strukturiert, d.h. nach Briefpartnern sortiert angezeigt und zugänglich gemacht. (3) Auf einer zusätzlichen Übersichtseite wird der aktuelle Zustand der Anwendung, d.h. die Anzahl der Briefpartner, der Briefe sowie der Zeitraum, in dem die Briefe entstanden sind, text-basiert und graphisch dargestellt.
+## Anforderungen
 
-1. Ihre erste Aufgabe ist das Importieren der als JSON-Dateien vorliegenden Briefwechsel in eine _SQLite_-Datenbank. Diese dient als Datengrundlage für die im zweiten Teil implementierte Webanwendung. Nutzen Sie für die Umsetzung des Import-Vorgangs die im Ordner `importer` vorgegebenen Strukturen aus dem Starterpaket. Das dort bereits vorhanden, und von Ihnen zu erweiternde, _Node.js_-Skript, muss beim jedem Ausführen eine neue _SQLite_-Datenbank mit den vorgegebenen Briefen erzeugen.
+Das wesentliche Ziel des Projektes ist es, die bereitgestellten Briefwechsel durch den Benutzer in das System einzupflegen und im Anschluss für diesen – aufbereitet – zugänglich zu machen. Die zu implementierende Anwendung erfüllt dazu drei Funktionen: 
 
-2. Der zweite Teil des Projekts ist die eigentliche Webanwendung, in die Sie die Datenbank aus Teil 1 einbinden und anschließend die in den Anforderungen gelisteten Funktionalitäten umsetzen. Implementieren Sie Ihre Lösung auf Basis der Vorgaben im Ordner `app` des Starterpakets.
+1. Auf einer Startseite wird den NUtzer*innen eine Übersicht über den Datenbestand präsentiert. Hier werden die Autor\*innen und Adressaten der Briefe vorgestellt und relevante quantiative Informationen, wie z.B. die Anzahl der Briefe und die Zeitspanne der Briefwechsel, aufgeführt. Die Darstellung erfolgt auf graphisch und text-basiert und wird durch Visualsierungen (auf Basis von _Chart.js_) untersützt.
+
+2. Von der Startseite wechseln die Nutzer\*innen zu eigentlichen Sammlung der Briefswechsel. Dieser werden, sortiert nach Briefpartner\*innen, in Form einer an moderne Chat-Programme angelegten Darstellung zugänglich gemacht. Die Darstellung innerhalb eines ausgewählten Briefwechsels erfolgt chronologisch und unterscheidet visuelle zwischen Autor\*in und Empfänger\*in.
+
+3. Über geeignete Schaltflächen können die Nutzer\*innen sowohl neue Briefpartner\*innen als auch neue Briefe ergänzen, die dann dauerhaft in der Datenbank gespeichert und in der Anwendung angezeigt werden.
+
+## Aufgabenstellung
+
+**Erstellen der Datenbank**: Ihre erste Aufgabe ist das Importieren der als JSON-Dateien vorliegenden Briefwechsel in eine _SQLite_-Datenbank. Diese dient als Datengrundlage für die im zweiten Teil implementierte Webanwendung. Nutzen Sie für die Umsetzung des Import-Vorgangs die im Ordner `importer` vorgegebenen Strukturen aus dem Starterpaket. Das dort bereits vorhanden, und von Ihnen zu erweiternde, _Node.js_-Skript, muss beim jedem Ausführen eine neue _SQLite_-Datenbank mit den vorgegebenen Briefen erzeugen. Sie können den Skript über die Eingabe von `npm start` auf der Kommandozeile (aus dem Unterordner `importer` heraus) starten.
+
+2. Der zweite Teil des Projekts ist die eigentliche Webanwendung, in die Sie die Datenbank aus Teil 1 einbinden und anschließend die in den Anforderungen gelisteten Funktionalitäten umsetzen. Denken Sie daran, in der Datei `Database.js` den Pfad zur erstellen Datenbankdatei anzugeben. Implementieren Sie Ihre Lösung auf Basis der Vorgaben im Ordner `app` des Starterpakets. Sie können Server und Client der Anwendung über die Eingabe von `npm start` auf der Kommandozeile (aus dem Unterordner `app` heraus) starten.
 
 ## Vorgaben
 
