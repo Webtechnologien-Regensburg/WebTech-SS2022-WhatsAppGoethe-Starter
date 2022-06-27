@@ -19,16 +19,18 @@ function openDatabase(path) {
   
 }
 
-async function runQuery(query, callback) {
-    db.all(query, function (error, rows) {
-        if (error === null) {
-            callback(rows);
-        } else {
-            console.log("Error while executing SQL query: " + query);
-            console.log(error);
-            callback(null);
-        }
+function runQuery(query) {
+    return new Promise((resolve, reject) => {
+        db.all(query, (error, rows) => {
+            if (error === null) {
+                resolve(rows);
+            } else {
+                console.error(error);
+                reject(new Error("Error while executing SQL query: " + query));
+            }
+        });
     });
+    
 }
 
 class Database {
