@@ -1,10 +1,6 @@
-/* eslint-env node */
-
+import 'dotenv/config';
 import DatabaseImporter from "./lib/DatabaseImporter.js";
 import LetterParser from "./lib/LetterParser.js";
-
-let dbFile = process.argv[2],
-    dataPath = process.argv[3];
 
 function onLetterParsed(letter) {
     DatabaseImporter.importLetter(letter);
@@ -12,7 +8,7 @@ function onLetterParsed(letter) {
 
 function onDatabaseReady() {
     LetterParser.setLetterParserListener(onLetterParsed);
-    LetterParser.parseLettersFrom(dataPath);
+    LetterParser.parseLettersFrom(process.env.DATA_PATH);
 }
 
-DatabaseImporter.prepare(dbFile, onDatabaseReady);
+DatabaseImporter.prepare(process.env.DB_FILE, onDatabaseReady);

@@ -1,53 +1,57 @@
-import sqlite3 from "sqlite3";
+import sqlite3 from 'sqlite3';
+import Logger from './Logger.js';
 
-const DB_PATH = "../importer/db.sqlite";
-
-var db;
-
-function openDatabase(path) {
+function openDatabaseFrom(path) {
     return new Promise((resolve, reject) => {
-        db = new sqlite3.Database(path, sqlite3.OPEN_READWRITE, (error) => {
+        let db = new sqlite3.Database(path, sqlite3.OPEN_READWRITE, (error) => {
             if (error === null) {
-                console.log("Database connected successfully!");
-                resolve();
+                Logger.log(`Database (${path}) opened`);
+                resolve(db);
             } else {
-                console.error(error);
-                reject(new Error("Error while opening SQL database from: " + path));
+                Logger.log(`Database (${path}) opened could not be opened`);
+                reject(new Error(`Error while opening database (${path})`));
             }
         });
     });
-  
 }
 
-function runQuery(query) {
-    return new Promise((resolve, reject) => {
-        db.all(query, (error, rows) => {
-            if (error === null) {
-                resolve(rows);
-            } else {
-                console.error(error);
-                reject(new Error("Error while executing SQL query: " + query));
-            }
-        });
-    });
-    
+class QueryResult {
+
+    constructor(query, rows) {
+        this.query = query;
+        this.resultSet = rows;
+        this.createdAt = Date.now();
+        Object.freeze(this);
+    }
+
 }
 
 class Database {
 
-    open() {
+    #db;
+
+    async open(path = "database.sqlite") {
+        this.#db = await openDatabaseFrom(path);
+        return;
+    }
+
+    async runQuery(query) {
         return new Promise((resolve, reject) => {
-            if (DB_PATH === "") {
-                reject(new Error("Empty database path: Could not open SQLite database"));
-            } else {
-                openDatabase(DB_PATH).then(() => {
-                    resolve();
-                });
+            if (this.#db === undefined) {
+                reject(new Error("Database not ready"));
             }
+            this.#db.all(query.query, (error, rows) => {
+                if (error === null) {
+                    Logger.log(`Query (${query.query}) run successfully`);
+                    resolve(new QueryResult(query.query, rows));
+                } else {
+                    Logger.log(`Error while running query (${query.query})`);
+                    reject(new Error(`Error while running query (${query.query})`));
+                }
+            });
         });
     }
 
-    /* Hier Funktionalitäten der Datenbank einfügen */
 }
 
 export default new Database();

@@ -5,12 +5,13 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "node index.js db.sqlite data",
+        "start": "node index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Alexander Bazo <alexanderbazo@googlemail.com>",
     "license": "MIT",
     "dependencies": {
+        "dotenv": "^16.0.1",
         "sqlite3": "^5.0.8"
     }
 }

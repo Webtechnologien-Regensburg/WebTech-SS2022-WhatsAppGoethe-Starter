@@ -1,40 +1,34 @@
-import express from "express";
-import Database from "./lib/Database.js";
+import 'dotenv/config';
+import express from 'express';
+import Logger from './lib/Logger.js';
+import Database from './lib/Database.js';
 
-const HTTP_PORT = 8080;
+let app;
 
-var app;
+async function initDatabase() {
+    await Database.open(process.env.DB_FILE);
+    return;
+}
 
-function initExpress() {
+function startExpress() {
     app = express();
-    app.use(express.static("www"));
+    app.use(express.static(process.env.APP_DIR));
     app.use(express.json());
-
-    // Test-Route für Server-Client-Verbindung (siehe oben), bitte vor Abgabe entfernen!
-    app.post("/test", onTestRequest);
-
-    app.listen(HTTP_PORT, function () {
-        console.log("Whats-App-Goethe Server listening on Port " + HTTP_PORT);
+    app.post("/database", async (request, response) => {
+        try {
+            let result = await Database.runQuery(request.body);
+            response.send(result);
+        } catch (error) {
+            response.send(error);
+        }
     });
+    app.listen(process.env.PORT);
 }
 
-function onTestRequest(request, response) {
-    console.log(request.body);
-
-    let msg = {
-        text: "It Works",
-    };
-
-    response.status(200).send(JSON.stringify(msg));
-}
-
-async function initApplication() {
-    try {
-        await Database.open();
-        initExpress();
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-initApplication();
+// Startup
+(async function () {
+    // TODO Erstellte und befüllte Datenbank-Datei als database.sqlite im Projektordner ablegen
+    Logger.enable();
+    await initDatabase();
+    startExpress();
+}());

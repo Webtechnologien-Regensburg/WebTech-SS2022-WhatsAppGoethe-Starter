@@ -1,10 +1,5 @@
-# Ignore node modules
+# local node dependencies
 node_modules
 
-# Ignore database files
-data/*.sqlite
-data/*.sqlite-journal
-data/*.db
-
-# Ignore IDE files
+# VS Code
 .vscode
